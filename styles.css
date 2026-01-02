@@ -1,0 +1,558 @@
+/* =========================
+   Rocket / Spacecraft Theme
+   Full styles.css (drop-in)
+   ========================= */
+
+:root{
+  --bg: #070a12;
+  --panel: rgba(14, 18, 34, 0.65);
+  --border: rgba(255,255,255,0.10);
+  --text: #e6edf7;
+  --muted: #98a6bf;
+
+  /* Aerospace base accents */
+  --accent: #38bdf8;
+  --accent2: #22d3ee;
+
+  /* Rocket cues */
+  --rocketGlow: rgba(255, 122, 24, 0.22);   /* engine glow */
+  --plasma: rgba(255, 0, 122, 0.10);        /* re-entry plasma hint */
+  --ok: #7CFFB2;
+
+  --shadow: 0 20px 60px rgba(0,0,0,0.45);
+}
+
+*{ box-sizing: border-box; }
+html{ scroll-behavior: smooth; }
+body{
+  margin: 0;
+  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+  color: var(--text);
+  background: var(--bg);
+}
+
+.container{
+  width: min(1100px, calc(100% - 32px));
+  margin: 0 auto;
+}
+
+/* =========================
+   Background layers
+   ========================= */
+.bg{
+  position: fixed;
+  inset: 0;
+  z-index: -3;
+}
+
+/* Starfield */
+.stars{
+  background-image:
+    radial-gradient(rgba(255,255,255,0.55) 1px, transparent 1px),
+    radial-gradient(rgba(255,255,255,0.35) 1px, transparent 1px);
+  background-size: 140px 140px, 220px 220px;
+  background-position: 0 0, 60px 80px;
+  opacity: 0.35;
+  filter: blur(0.2px);
+}
+
+/* Blueprint grid (kept subtle; rocket feel comes from glow + paneling) */
+.blueprint{
+  z-index: -2;
+  background-image:
+    linear-gradient(rgba(56,189,248,0.07) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(56,189,248,0.07) 1px, transparent 1px);
+  background-size: 28px 28px;
+  opacity: 0.45;
+}
+
+/* Re-entry / engine glow vignette */
+.vignette{
+  z-index: -1;
+  background:
+    radial-gradient(900px 600px at 15% 5%, rgba(56,189,248,0.10), transparent 60%),
+    radial-gradient(1200px 700px at 85% 10%, rgba(34,211,238,0.08), transparent 65%),
+    radial-gradient(900px 700px at 50% 115%, var(--rocketGlow), transparent 55%),
+    radial-gradient(700px 500px at 70% 120%, var(--plasma), transparent 60%),
+    radial-gradient(900px 700px at 50% 120%, rgba(0,0,0,0.88), transparent 55%);
+}
+
+/* =========================
+   Header / Nav
+   ========================= */
+.header{
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  backdrop-filter: blur(12px);
+}
+
+.nav{
+  display:flex;
+  align-items:center;
+  justify-content: space-between;
+  margin-top: 14px;
+  padding: 12px 14px;
+  border: 1px solid var(--border);
+  background: rgba(14,18,34,0.55);
+  border-radius: 18px;
+}
+
+/* Mission patch brand */
+.brand{
+  display:flex;
+  align-items:center;
+  gap: 10px;
+  text-decoration:none;
+  color: var(--text);
+  font-weight: 650;
+  letter-spacing: 0.3px;
+}
+
+.brandMark{
+  width: 34px;
+  height: 34px;
+  display:grid;
+  place-items:center;
+  border-radius: 999px; /* mission patch */
+  border: 1px solid rgba(56,189,248,0.35);
+  background:
+    radial-gradient(circle at 30% 30%, rgba(56,189,248,0.22), transparent 55%),
+    rgba(56,189,248,0.10);
+  position: relative;
+}
+
+.brandMark::after{
+  content:"";
+  position:absolute;
+  inset: -6px;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,0.08);
+  opacity: 0.7;
+}
+
+.brandText{
+  color: rgba(230,237,247,0.9);
+}
+
+.links{
+  display:flex;
+  gap: 14px;
+  align-items:center;
+}
+
+.links a{
+  color: var(--muted);
+  text-decoration:none;
+  font-size: 14px;
+}
+.links a:hover{ color: var(--text); }
+
+.cta{
+  padding: 8px 12px;
+  border-radius: 12px;
+  border: 1px solid rgba(56,189,248,0.30);
+  background: rgba(56,189,248,0.12);
+  color: var(--text) !important;
+}
+
+/* Mobile menu */
+.menuBtn{
+  display:none;
+  border: 1px solid var(--border);
+  background: rgba(255,255,255,0.05);
+  color: var(--text);
+  padding: 8px 10px;
+  border-radius: 12px;
+}
+
+.mobileMenu{
+  margin-top: 8px;
+  padding: 12px 14px;
+  border: 1px solid var(--border);
+  background: rgba(14,18,34,0.55);
+  border-radius: 18px;
+  display:flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* CRITICAL: ensure hidden attribute actually hides it */
+.mobileMenu[hidden]{
+  display: none !important;
+}
+
+.mobileMenu a{
+  color: var(--muted);
+  text-decoration:none;
+  padding: 10px 10px;
+  border-radius: 12px;
+  background: rgba(255,255,255,0.03);
+}
+.mobileMenu a:hover{ color: var(--text); }
+
+/* =========================
+   Layout
+   ========================= */
+.main{ padding: 18px 0 40px; }
+
+.panel{
+  border: 1px solid var(--border);
+  background: var(--panel);
+  box-shadow: var(--shadow);
+  border-radius: 22px;
+}
+
+/* =========================
+   Hero
+   ========================= */
+.hero{
+  padding: 26px;
+  margin-top: 16px;
+  overflow: hidden;
+  position: relative;
+}
+
+/* Rocket paneling texture */
+.hero::after{
+  content:"";
+  position:absolute;
+  inset: -40px -20px;
+  background:
+    linear-gradient(90deg, rgba(255,255,255,0.06) 1px, transparent 1px),
+    radial-gradient(rgba(255,255,255,0.08) 1px, transparent 1px);
+  background-size: 90px 90px, 120px 120px;
+  opacity: 0.12;
+  pointer-events:none;
+  transform: rotate(-2deg);
+}
+
+/* Optional rocket watermark (only if you include <div class="rocketMark"></div> in hero) */
+.rocketMark{
+  position:absolute;
+  right: 18px;
+  top: 18px;
+  width: 140px;
+  height: 140px;
+  opacity: 0.18;
+  background:
+    radial-gradient(circle at 50% 90%, rgba(255,122,24,0.35), transparent 55%),
+    linear-gradient(180deg, rgba(56,189,248,0.25), transparent 60%);
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath fill='black' d='M32 2c-7 6-12 14-12 26v12l-6 6v6l10-4 8 14 8-14 10 4v-6l-6-6V28C44 16 39 8 32 2zm0 10c3 4 6 9 6 16v10H26V28c0-7 3-12 6-16z'/%3E%3C/svg%3E") center/contain no-repeat;
+          mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath fill='black' d='M32 2c-7 6-12 14-12 26v12l-6 6v6l10-4 8 14 8-14 10 4v-6l-6-6V28C44 16 39 8 32 2zm0 10c3 4 6 9 6 16v10H26V28c0-7 3-12 6-16z'/%3E%3C/svg%3E") center/contain no-repeat;
+  pointer-events:none;
+}
+
+.kicker{
+  margin: 0 0 10px;
+  font-size: 12px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(152,166,191,0.95);
+}
+
+.title{
+  margin: 0;
+  font-size: clamp(28px, 4vw, 54px);
+  line-height: 1.08;
+  letter-spacing: -0.02em;
+}
+
+.subtitle{
+  margin: 12px 0 0;
+  max-width: 62ch;
+  color: var(--muted);
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+.heroActions{
+  margin-top: 18px;
+  display:flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+/* Buttons: add slight “hardware” feel */
+.btn{
+  text-decoration:none;
+  color: var(--text);
+  border: 1px solid var(--border);
+  background: rgba(255,255,255,0.06);
+  padding: 10px 14px;
+  border-radius: 14px;
+  font-size: 14px;
+  display:inline-flex;
+  gap: 8px;
+  align-items:center;
+}
+.btn:hover{ background: rgba(255,255,255,0.09); }
+
+.btn.accent{
+  border-color: rgba(56,189,248,0.35);
+  background: rgba(56,189,248,0.15);
+}
+
+.btn.ghost{
+  background: transparent;
+}
+
+/* =========================
+   Telemetry (rocket-like)
+   ========================= */
+.telemetry{
+  margin-top: 18px;
+  display:grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+
+.telemetryItem{
+  border: 1px solid rgba(255,255,255,0.10);
+  background:
+    linear-gradient(180deg, rgba(255,255,255,0.04), rgba(0,0,0,0.10));
+  border-radius: 16px;
+  padding: 10px 12px;
+}
+
+.telemetry .label{
+  display:block;
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(152,166,191,0.95);
+}
+
+.telemetry .value{
+  display:block;
+  margin-top: 6px;
+  font-weight: 650;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+  letter-spacing: 0.02em;
+}
+
+.value.ok{
+  color: var(--ok);
+  text-shadow: 0 0 18px rgba(124,255,178,0.15);
+}
+
+/* =========================
+   Sections (modules + staging)
+   ========================= */
+.section{
+  margin-top: 16px;
+  padding: 18px;
+}
+
+.sectionHead{
+  display:flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+
+  /* Stage line */
+  padding-bottom: 10px;
+  border-bottom: 1px dashed rgba(56,189,248,0.22);
+}
+
+.sectionHead h2{
+  margin: 0;
+  font-size: 22px;
+
+  /* Chevron cue */
+  position: relative;
+  padding-left: 16px;
+}
+
+.sectionHead h2::before{
+  content:"";
+  position:absolute;
+  left:0;
+  top: 0.65em;
+  width:10px;
+  height:10px;
+  transform: translateY(-50%) rotate(45deg);
+  border: 1px solid rgba(56,189,248,0.45);
+  background: rgba(56,189,248,0.12);
+  border-radius: 2px;
+}
+
+.muted{ color: var(--muted); }
+
+/* Cards become “modules” */
+.cards{
+  margin-top: 14px;
+  display:grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+}
+
+.card{
+  border: 1px solid rgba(255,255,255,0.10);
+  background:
+    linear-gradient(180deg, rgba(255,255,255,0.035), rgba(0,0,0,0.12));
+  border-radius: 18px;
+  padding: 14px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Module corner chamfer */
+.card::before{
+  content:"";
+  position:absolute;
+  right: -40px;
+  top: -40px;
+  width: 90px;
+  height: 90px;
+  transform: rotate(45deg);
+  background: rgba(56,189,248,0.06);
+  border: 1px solid rgba(56,189,248,0.12);
+}
+
+.card h3{ margin: 0 0 6px; font-size: 16px; }
+.card ul{ margin: 10px 0 0; padding-left: 18px; color: var(--muted); }
+.card li{ margin: 6px 0; }
+
+/* =========================
+   Skills tags
+   ========================= */
+.tags{
+  margin-top: 12px;
+  display:flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.tag{
+  font-size: 12px;
+  padding: 8px 10px;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,0.10);
+  background: rgba(255,255,255,0.04);
+}
+
+/* =========================
+   Projects filtering chips
+   ========================= */
+.filterRow{
+  margin-top: 12px;
+  display:flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.chip{
+  border: 1px solid rgba(255,255,255,0.10);
+  background: rgba(255,255,255,0.04);
+  color: var(--text);
+  padding: 8px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.chip.active{
+  border-color: rgba(56,189,248,0.35);
+  background: rgba(56,189,248,0.15);
+}
+
+.grid{
+  margin-top: 12px;
+  display:grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+}
+
+.project{
+  display:flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.projectTop{
+  display:flex;
+  align-items:flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.badge{
+  font-size: 11px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  border: 1px solid rgba(56,189,248,0.35);
+  background: rgba(56,189,248,0.12);
+  white-space: nowrap;
+}
+
+.project p{ margin: 0; color: var(--muted); }
+
+.projectLinks{
+  display:flex;
+  gap: 12px;
+}
+
+.link{
+  color: var(--accent2);
+  text-decoration: none;
+}
+.link:hover{ text-decoration: underline; }
+
+/* =========================
+   Contact form
+   ========================= */
+.contactGrid{
+  margin-top: 12px;
+  display:grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+}
+
+label{
+  display:flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 10px;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+input, textarea{
+  border: 1px solid rgba(255,255,255,0.12);
+  background: rgba(0,0,0,0.20);
+  color: var(--text);
+  border-radius: 14px;
+  padding: 10px 12px;
+  outline: none;
+}
+
+input:focus, textarea:focus{
+  border-color: rgba(56,189,248,0.45);
+}
+
+/* =========================
+   Footer
+   ========================= */
+.footer{
+  margin-top: 16px;
+  padding: 18px 6px 4px;
+  text-align:center;
+  font-size: 13px;
+}
+.dot{ margin: 0 8px; opacity: 0.6; }
+
+/* =========================
+   Responsive breakpoints
+   ========================= */
+@media (min-width: 760px){
+  .cards{ grid-template-columns: 1fr 1fr; }
+  .grid{ grid-template-columns: 1fr 1fr; }
+  .contactGrid{ grid-template-columns: 1fr 1fr; }
+}
+
+@media (max-width: 860px){
+  .links{ display:none; }
+  .menuBtn{ display:inline-flex; }
+  .telemetry{ grid-template-columns: 1fr; }
+}
