@@ -381,10 +381,9 @@ body{
 
 /* Cards become “modules” */
 .cards{
-  margin-top: 14px;
-  display:grid;
-  grid-template-columns: 1fr;
-  gap: 12px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
 }
 
 .card{
@@ -395,6 +394,7 @@ body{
   padding: 14px;
   position: relative;
   overflow: hidden;
+  
 }
 
 /* Module corner chamfer */
@@ -555,4 +555,111 @@ input:focus, textarea:focus{
   .links{ display:none; }
   .menuBtn{ display:inline-flex; }
   .telemetry{ grid-template-columns: 1fr; }
+}
+
+/* Experience / Project Details Button */
+.detailsBtn{
+  font-size: 13px;
+  font-weight: 500;
+  text-decoration: none;
+  color: var(--accent-primary);
+
+  padding: 8px 14px;
+  border-radius: 14px;
+
+  border: 1px solid var(--accent-primary-border);
+  background: linear-gradient(
+    180deg,
+    rgba(125, 211, 252, 0.18),
+    rgba(125, 211, 252, 0.08)
+  );
+
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    transform 0.1s ease;
+}
+
+/* Hover = subtle hardware glow */
+.detailsBtn:hover{
+  background: linear-gradient(
+    180deg,
+    rgba(125, 211, 252, 0.28),
+    rgba(125, 211, 252, 0.14)
+  );
+  border-color: var(--accent-primary);
+  box-shadow: 0 0 18px rgba(125, 211, 252, 0.25);
+}
+
+/* Click feedback */
+.detailsBtn:active{
+  transform: translateY(1px);
+}
+.projectLinks{
+  margin-top: 14px;
+  display: flex;
+  justify-content: flex-end;
+}
+#experience .cards {
+  grid-template-columns: 1fr;
+}
+
+.videoEmbed{
+  margin-top: 14px;
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+
+  border-radius: 16px;
+  overflow: hidden;
+
+  border: 1px solid rgba(255,255,255,0.10);
+  background: rgba(0,0,0,0.35);
+}
+
+.videoEmbed iframe{
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+/* PDF Embed */
+.pdfEmbed{
+  margin-top: 14px;
+  position: relative;
+  width: 100%;
+  height: 520px; /* desktop default */
+
+  border-radius: 16px;
+  overflow: hidden;
+
+  border: 1px solid rgba(255,255,255,0.10);
+  background: rgba(0,0,0,0.35);
+}
+
+.pdfEmbed iframe{
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+/* PDF action row */
+.pdfActions{
+  margin-top: 10px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+/* Mobile: don’t force embed (mobile PDF viewers vary) */
+@media (max-width: 860px){
+  .pdfEmbed{
+    height: 320px;
+  }
 }
